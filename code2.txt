@@ -1,0 +1,37 @@
+# Import necessary libraries
+import numpy as np
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error, r2_score
+import matplotlib.pyplot as plt
+
+# Set the random seed for reproducibility
+np.random.seed(0)
+
+# Create 100 random Xs
+X = np.random.rand(100, 1)
+
+# Generate 100 corresponding Ys from the model Y = 2 + 3X + ε
+ε = np.random.normal(0, 1, size=(100, 1))
+Y = 2 + 3 * X + ε
+
+# Split your dataset randomly into training set (80%) and testing dataset (20%)
+X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2, random_state=42)
+
+# Fit the Simple Regression line (Least Squares Line) using the training set
+model = LinearRegression()
+model.fit(X_train, Y_train)
+
+# Use the testing set to assess the performance of the model
+Y_pred = model.predict(X_test)
+
+# Calculate and print Residual Standard Error (RSE) and R² statistic
+print("Residual standard error: ", np.sqrt(mean_squared_error(Y_test, Y_pred)))
+print("R² statistic: ", r2_score(Y_test, Y_pred))
+
+# Plot the dataset points (samples), Population Regression Line (in red), and Least Squares Line (in blue)
+plt.scatter(X, Y, color='black')
+plt.plot(X, 2 + 3 * X, color='red', linewidth=2)
+plt.plot(X_test, Y_pred, color='blue', linewidth=2)
+plt.show()
